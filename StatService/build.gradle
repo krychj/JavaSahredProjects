@@ -1,0 +1,46 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+		flatDir {dirs "WebContent/WEB-INF/lib"}   		
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")		   		
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'war'
+
+project.webAppDirName = 'WebContent'
+
+war {
+	baseName = 'StatService'
+	version = '1.0'	
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	providedRuntime	
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-jersey')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('com.fasterxml.jackson.core:jackson-databind')
+	compile fileTree(dir: "WebContent/WEB-INF/lib", include: '*.jar')
+	runtime('com.h2database:h2')
+	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
